@@ -1,0 +1,189 @@
+
+body {
+    font-size: 14px;
+    font-family: 'Georgia', "Hiragino Sans GB", serif;
+    width: 100%;
+    overflow: hidden;
+    background: #fbfbfb;
+}
+
+#main {
+    height: 100%;
+
+    #editor_save_button{
+        position: fixed;
+        top: 6px;
+        right: 2px;
+        z-index: 10000;
+
+        a{
+            text-decoration: none;
+            padding: 5px 20px;
+            background: #b4b4b4;
+            border-radius: 2px;
+            color: #fff;
+
+            &:hover{
+                background: #d42128;
+            }
+        }
+
+        .precess{
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            background: #d42128;
+            height: 2px;
+
+        }
+    }
+}
+
+#editor {
+    #title {
+        position: absolute;
+        top: 10px;
+        height: 48px;
+        padding: 0 0 5px 0;
+        z-index: 99;
+
+        background: #fbfbfb;
+        width: 100%;
+
+        font-size: 30px;
+        border: none;
+        border-bottom: 1px dotted #d9d9d9;
+        resize: none;
+        outline: none;
+        box-shadow: none;
+    }
+    textarea {
+        background: #fbfbfb;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding-top: 90px;
+        z-index: 9;
+
+        height: 100%;
+        width: 780px;
+
+        font-family: "Hiragino Sans GB", "Microsoft Yahei", Verdana, Arial, sans-serif;
+        font-size: 13pt;
+        line-height: 1.8em;
+
+        resize: none;
+        outline: none;
+        display: block;
+
+        border: none;
+
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        box-sizing: border-box;
+
+    }
+}
+
+#controls {
+    position: fixed;
+    z-index: 999;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    background: #eee;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+    .cmds {
+        position: relative;
+        height: 40px;
+        border-bottom: 1px solid #c8c8c8;
+
+        a {
+            text-decoration: none;
+            color: #333;
+            width: 50%;
+            float: left;
+            padding: 0;
+            line-height: 40px;
+            text-align: center;
+            font-size: 12px;
+
+            i {
+                padding-right: 5px;
+            }
+
+            &:hover {
+                color: #ffffff;
+                background: #555;
+            }
+
+        }
+
+        #hide_controls {
+            width: 90px;
+            border-right: 1px solid #c8c8c8;
+        }
+
+        #create_post {
+            width: 159px;
+        }
+
+    }
+
+    #posts {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+
+            a {
+                display: block;
+                position: relative;
+                text-decoration: none;
+                color: #333;
+                padding: 15px 15px;
+                border-top: 1px solid #eee;
+                border-bottom: 1px solid #e5e5e5;
+
+                .remove {
+                    position: absolute;
+                    text-align: center;
+                    width: 14px;
+                    height: 14px;
+                    font-size: 12px;
+                    color: #999;
+                    top: 5px;
+                    right: 8px;
+                    display: none;
+
+                    &:hover {
+                        background: #db635d;
+                        color: #fff;
+                    }
+                }
+
+                &:hover {
+                    .remove {
+                        display: inherit;
+                    }
+                }
+            }
+        }
+
+        a:hover, .current {
+            background: #fafafa;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+        }
+    }
+
+}

@@ -1,0 +1,329 @@
+$menu_bg_color: #efefef;
+$menu_width: 100px;
+$menu_border_color: #ddd;
+$bg_color: #fbfbfb;
+$main_color: #0078e7;
+
+.clear {
+    height: 0;
+    width: 0;
+    clear: both;
+    border: none;
+}
+
+body {
+    font-size: 14px;
+    font-family: 'proxima-nova', 'Georgia', sans-serif;
+    color: #555;
+    padding: 0;
+    margin: 0;
+    -webkit-text-size-adjust: none;
+    background: $bg_color;
+}
+
+.fb-u, .fb-s, .fb-cell {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+    text-rendering: auto;
+
+    & * {
+        width: 100%;
+    }
+
+    .drag_over{
+        border: 2px dotted #d85b56;
+    }
+
+}
+
+.fb-cell {
+    display: block;
+    margin: 5px 0;
+
+    .fb-u {
+        margin-bottom: 0.5em;
+    }
+
+    .auto-width {
+        width: auto;
+    }
+
+    .fb-checkbox, .fb-radio {
+        margin: .5em 0;
+        display: block;
+    }
+}
+
+.fb-s {
+    height: 1px;
+}
+
+.fb-u-1 {
+    textarea{
+        width: 97%;
+    }
+    .fb-u, .fb-s, .fb-cell {
+        display: block;
+    }
+}
+
+.fb-u-2 .fb-u {
+    width: 45%;
+}
+
+.fb-u-2 .fb-s {
+    width: 5%;
+}
+
+.fb-u-3 .fb-u {
+    width: 28%;
+}
+
+.fb-u-3 .fb-s {
+    width: 5.33333%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.pure-form-stacked {
+    line-height: 2.1;
+
+    label {
+        max-height: 2.1em;
+        overflow: hidden;
+        word-break: break-all;
+    }
+
+    hr {
+        height: 1px;
+        border: none;
+        border-top: 1px dashed #ddd;
+        margin: 20px 0;
+    }
+
+    input[type=text], input[type=email], input[type=password], select {
+        font-size: 1.1em;
+
+    }
+
+    select {
+        font-size: 1em;
+        color: #333;
+        height: 2.1em;
+    }
+
+    .submit {
+        margin: 50px 0;
+        margin-left: -5%;
+        text-align: center;
+
+        .pure-button {
+            font-size: 1.5em;
+            padding: 0.5em;
+        }
+    }
+
+    textarea {
+        height: 80px;
+        line-height: 1.3em;
+        font-size: 14px;
+        color: #333;
+    }
+
+    fieldset {
+        margin-top: 20px;
+
+        legend {
+            border-bottom-style: dashed;
+            padding: 0;
+            margin-bottom: 0;
+        }
+    }
+
+
+
+}
+
+#layout {
+    position: relative;
+
+    #header{
+        position: absolute;
+        top: 10px;
+        right: 15px;
+
+        a{
+            text-decoration: none;
+            font-size: 10px;
+            color: #666;
+            margin-left: 10px;
+
+            i{
+                padding-right: 2px;
+            }
+            &:hover{
+                color:$main_color
+            }
+        }
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            display: block;
+
+            a {
+                display: block;
+                text-decoration: none;
+                color: #333;
+            }
+        }
+    }
+
+    .pure-menu {
+        border: none;
+        background: none;
+    }
+
+
+
+    #menu {
+        background: $menu_bg_color;
+        width: $menu_width;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        border-right: 1px solid $menu_border_color;
+        -webkit-overflow-scroll: touch;
+
+        li {
+            text-align: center;
+            border-bottom: 1px solid $menu_border_color;
+
+            a {
+                padding: 18px 0;
+                color: #666;
+
+                &:hover, &.selected {
+                    background: $bg_color;
+                    color: #000;
+                }
+
+                &.selected {
+                    margin-right: -1px;
+                }
+
+                i {
+                    font-size: 24px;
+                    display: block;
+                }
+            }
+
+        }
+
+    }
+
+    #container {
+        width: auto;
+        display: block;
+        padding: 30px 5% 20px 5%;
+        margin-left: $menu_width;
+        margin-bottom: 30px;
+
+        .full-window {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            right: 0;
+
+            iframe{
+                border: none;
+                width: 100%;
+                height: 100%;
+            }
+
+        }
+
+        .site-configs-menu {
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 35px;
+            margin-top: 10px;
+            line-height: 2.5em;
+
+            li {
+                display: inline;
+
+                a {
+                    display: inline;
+                    font-size: 20px;
+                    padding: 0 30px 14px 30px;
+
+                    &:hover, &.selected {
+                        color: $main_color;
+                        border-bottom: 1px solid $main_color;
+                    }
+                }
+            }
+        }
+
+        .templates-container {
+            position: relative;
+            margin-top: -10px;
+
+            iframe{
+                border: 1px solid #ccc;
+                width: 100%;
+                height: 95%;
+
+                box-shadow: 0 0 10px 3px rgba(0,0,0,0.3);
+            }
+
+            .tip{
+                text-align: center;
+                font-size: 0.7em;
+                color: #999;
+                margin-top: 10px;
+            }
+
+            .templates{
+                text-align: center;
+                overflow: hidden;
+                position: relative;
+                margin-bottom: 20px;
+
+
+                select{
+                    font-size: 1em;
+                    color: #333;
+                    height: 2.1em;
+                    width: 150px;
+
+                    border: 1px solid #ccc;
+                    background-color: #fff
+                }
+
+                select, label{
+                    margin-right: 15px;
+                }
+
+                select:focus{
+                    outline: 0;
+                    outline: thin dotted  \9;
+                }
+
+            }
+
+        }
+
+    }
+
+}
