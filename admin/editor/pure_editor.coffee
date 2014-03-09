@@ -4,7 +4,11 @@ controls_width = 235
 
 
 Post = (raw_post, editor) ->
-    @path = raw_post.path
+    if raw_post.raw_path
+        path_parts = raw_post.raw_path.split('/')
+        @path = path_parts.slice(1).join('/')
+    else
+        @path = raw_post.path
     @title = ko.observable(raw_post.title)
     raw_content = raw_post['_content'] or ''
     title_reg = new RegExp('(?:^|([\r\n]))Title: ?'+ raw_post.title + ' *[\r\n]', 'i')

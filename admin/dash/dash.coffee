@@ -213,8 +213,6 @@ ImageUploader = (dom) ->
             part.title = @i18n(row, 'title')
             part.default_value = row.default_value or ''
             part.value = @get_config_value(part.key, part.default_value)
-            if part.key == 'live'
-                part.value = 'no'
             if not row.model then row.model = 'text'
             part.model = row.model
 
@@ -377,6 +375,9 @@ DashBoard = (data)->
             @config_pages(new ConfigPages(data))
             @reset_for_images()
             @config_for_images()
+
+    if @site.error_info
+        Essage.show({message: @site.error_info, status: 'error'}, 5000)
 
     return this
 

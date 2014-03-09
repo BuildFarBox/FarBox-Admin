@@ -236,9 +236,6 @@
         part.title = _this.i18n(row, 'title');
         part.default_value = row.default_value || '';
         part.value = _this.get_config_value(part.key, part.default_value);
-        if (part.key === 'live') {
-          part.value = 'no';
-        }
         if (!row.model) {
           row.model = 'text';
         }
@@ -463,6 +460,12 @@
         return _this.config_for_images();
       });
     };
+    if (this.site.error_info) {
+      Essage.show({
+        message: this.site.error_info,
+        status: 'error'
+      }, 5000);
+    }
     return this;
   };
 

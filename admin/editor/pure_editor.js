@@ -10,10 +10,15 @@
   controls_width = 235;
 
   Post = function(raw_post, editor) {
-    var raw_content, title_reg,
+    var path_parts, raw_content, title_reg,
       _this = this;
 
-    this.path = raw_post.path;
+    if (raw_post.raw_path) {
+      path_parts = raw_post.raw_path.split('/');
+      this.path = path_parts.slice(1).join('/');
+    } else {
+      this.path = raw_post.path;
+    }
     this.title = ko.observable(raw_post.title);
     raw_content = raw_post['_content'] || '';
     title_reg = new RegExp('(?:^|([\r\n]))Title: ?' + raw_post.title + ' *[\r\n]', 'i');
