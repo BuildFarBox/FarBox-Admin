@@ -208,7 +208,11 @@
     this.get_config_value = function(key, default_value) {
       var value;
 
-      value = site.configs ? site.configs[key] || site[key] : site[key];
+      if (site.configs && key in site.configs) {
+        value = site.configs[key];
+      } else {
+        value = site[key];
+      }
       if ($.type(value) === 'array') {
         value = value.join('\n');
       }
@@ -278,11 +282,7 @@
           }
         }
         if (part.model === 'check') {
-          if (part.key === 'live') {
-            part.checked = false;
-          } else {
-            part.checked = (_ref1 = _this.get_config_value(part.key) || part.default_value) === 'on' || _ref1 === 'yes' || _ref1 === true;
-          }
+          part.checked = (_ref1 = _this.get_config_value(part.key, part.default_value)) === 'on' || _ref1 === 'yes' || _ref1 === true;
         }
         if (part.model === 'textarea') {
           part.is_list = row.is_list || false;

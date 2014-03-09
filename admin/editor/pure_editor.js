@@ -3,7 +3,7 @@
   var EditorModel, Post, controls_width, make_textarea_center, posts_host, sync_gateway,
     _this = this;
 
-  posts_host = '/admin/editor/recent_posts_data';
+  posts_host = '/admin/editor/data' + location.search;
 
   sync_gateway = '/service/gateway/sync';
 

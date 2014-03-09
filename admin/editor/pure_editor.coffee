@@ -1,4 +1,4 @@
-posts_host = '/admin/editor/recent_posts_data'
+posts_host = '/admin/editor/data'+location.search
 sync_gateway = '/service/gateway/sync'
 controls_width = 235
 

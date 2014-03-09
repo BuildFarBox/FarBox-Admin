@@ -190,7 +190,11 @@ ImageUploader = (dom) ->
 
 
     @get_config_value = (key, default_value)=>
-        value = if site.configs then site.configs[key] or site[key] else site[key]
+        if site.configs and key of site.configs
+            value = site.configs[key]
+        else
+            value = site[key]
+
         if $.type(value) == 'array'
             value = value.join('\n')
 
@@ -241,10 +245,7 @@ ImageUploader = (dom) ->
                         part.options.push({title: folder.path, value: folder.path})
 
             if part.model == 'check'
-                if part.key == 'live'
-                    part.checked = false
-                else
-                    part.checked = (@get_config_value(part.key) or part.default_value) in ['on', 'yes', true]
+                part.checked = @get_config_value(part.key, part.default_value) in ['on', 'yes', true]
 
             if part.model == 'textarea'
                 part.is_list = row.is_list or false
