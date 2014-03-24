@@ -405,7 +405,7 @@
     this.current_site_domain = ko.observable(this.site.domain);
     this.current_site_domain.subscribe(function(domain) {
       if (domain) {
-        return window.location.href = 'http://' + domain + '/admin';
+        return window.location.href = 'http://' + domain + '/admin' + '?account_id=' + cross_account_id;
       } else {
         return alert('domain of this site is not valid');
       }

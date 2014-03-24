@@ -341,7 +341,7 @@ DashBoard = (data)->
     @current_site_domain = ko.observable(@site.domain)
     @current_site_domain.subscribe (domain)->
         if domain
-            window.location.href = 'http://'+ domain + '/admin'
+            window.location.href = 'http://'+ domain + '/admin' + '?account_id=' + cross_account_id
         else
             alert('domain of this site is not valid')
 

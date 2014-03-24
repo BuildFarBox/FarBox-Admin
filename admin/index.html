@@ -101,7 +101,7 @@
                                     <!-- ko if: model=='check' -->
                                     <input data-bind="attr:{id: id, checked: checked}" type="checkbox"
                                            class="auto-width fb_config">
-                                    <span data-bind="text: title"></span>
+                                    <span data-bind="html: title"></span>
                                     <!-- /ko -->
 
                                 </div>
@@ -171,8 +171,9 @@
 
     <script type="text/html" id="pay-template">
         <div class="full-window full-height">
-            <iframe src="/service/pricing"></iframe>
+            <iframe data-bind="attr:{src:'/service/pricing?'+Math.random()}"}></iframe>
         </div>
+
     </script>
 
     <script type="text/html" id="doc-template">
@@ -183,7 +184,7 @@
 
     <script type="text/html" id="editor-template">
         <div class="full-window full-height">
-            <iframe  data-bind="attr:{src:'/admin/editor'}"}></iframe>
+            <iframe  data-bind="attr:{src:'/admin/editor?'+Math.random()}"}></iframe>
         </div>
     </script>
 
@@ -192,7 +193,9 @@
 
 
 </div>
-
+   <script type="text/javascript">
+       var cross_account_id = '{{cross_account_id}}';
+   </script>
 {{ load('jquery#1.8.1 knockout essage basic /template/admin/dash/dash.js') }}
 
 </body>
