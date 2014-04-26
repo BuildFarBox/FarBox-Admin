@@ -10,7 +10,7 @@
   controls_width = 235;
 
   Post = function(raw_post, editor) {
-    var path_parts, raw_content, title_reg,
+    var c, path_parts, prereged_title, raw_content, title_reg, _i, _len, _ref,
       _this = this;
 
     if (raw_post.raw_path) {
@@ -21,7 +21,13 @@
     }
     this.title = ko.observable(raw_post.title);
     raw_content = raw_post['_content'] || '';
-    title_reg = new RegExp('(?:^|([\r\n]))Title: ?' + raw_post.title + ' *[\r\n]', 'i');
+    prereged_title = raw_post.title;
+    _ref = ['$', '\\', '{', '}', '[', ']', '(', ')', '^', '.', '*', '+', '?', '|'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      c = _ref[_i];
+      prereged_title = prereged_title.replace(c, '\\' + c);
+    }
+    title_reg = new RegExp('(?:^|([\r\n]))Title: ?' + prereged_title + ' *[\r\n]', 'i');
     this.content = raw_content.replace(title_reg, '$1');
     this.edit = function() {
       var current_post_dom, index, t_dom;
