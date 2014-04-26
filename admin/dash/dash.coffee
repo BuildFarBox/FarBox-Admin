@@ -1,5 +1,6 @@
 exports = this
 
+
 @lang_keys = {
     'zh_cn':{
         'Setup': '设置',
@@ -21,10 +22,24 @@ exports = this
     }
 }
 
+
+@lang = navigator.language.toLowerCase().replace('-', '_')
+
+
+@get_text = (key, keys)->
+    if lang_keys? and not keys
+        keys = lang_keys
+    texts = keys[lang]
+    if texts
+        return texts[key+'_'+lang] or texts[key] or key
+    else
+        return key
+
+
 clone_template_gateway = '/service/gateway/clone_template_by_key'
 content_gateway = '/service/gateway/sync'
 admin_data_gateway = '/admin/data'
-lang = navigator.language.toLowerCase().replace('-', '_')
+
 
 
 # 左侧的菜单定义
@@ -256,6 +271,7 @@ ImageUploader = (dom) ->
 
     config_pages = []
     for config_page in raw_config_pages
+        config_page.title = @i18n(config_page, 'title')
         for group in config_page.groups or []
             group.title = @i18n(group, 'title')
             if group.hidden in ['on', 'yes', true]
