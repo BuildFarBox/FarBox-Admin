@@ -11,7 +11,10 @@ Post = (raw_post, editor) ->
         @path = raw_post.path
     @title = ko.observable(raw_post.title)
     raw_content = raw_post['_content'] or ''
-    title_reg = new RegExp('(?:^|([\r\n]))Title: ?'+ raw_post.title + ' *[\r\n]', 'i')
+    prereged_title = raw_post.title
+    for c in ['$','\\','{','}','[',']','(',')','^','.','*','+','?','|']
+        prereged_title = prereged_title.replace(c,'\\'+c)
+    title_reg = new RegExp('(?:^|([\r\n]))Title: ?'+ prereged_title + ' *[\r\n]', 'i')
     @content = raw_content.replace(title_reg, '$1')
 
     @edit = =>
