@@ -27,7 +27,7 @@ Post = (raw_post, editor) ->
             mode = {name: "jade", alignCDATA: true}
         else if raw_post.ext == 'html'
             mode = {name: "jinja2", htmlMode: true}
-        else if raw_post.ext == 'js'
+        else if raw_post.ext in ['js', 'json']
             mode = 'javascript'
         else if raw_post.ext == 'less'
             mode = "text/x-less"
@@ -35,6 +35,8 @@ Post = (raw_post, editor) ->
             mode = "text/x-scss"
         else if raw_post.ext == 'css'
             mode = 'text/css'
+        else if raw_post.ext == 'coffee'
+            mode = 'text/x-coffeescript'
 
 
         @code_editor = CodeMirror(document.getElementById("editor"), {
@@ -108,7 +110,7 @@ EditorModel = ->
         else
             ext_parts = path.split('.')
             ext = ext_parts[ext_parts.length-1]
-            if ext not in ['scss', 'sass', 'css', 'less', 'jade', 'html']
+            if ext not in ['scss', 'sass', 'css', 'less', 'jade', 'html', 'json', 'coffee']
                 Essage.show({message: 'this file type is not allowed', status: 'error'})
                 return false
             path = path.replace(/^\//g, '', path)

@@ -1,5 +1,5 @@
 {{ need_admin() }}
 {{ set_content_type('application/json') }}
-{% set allowed_ext = ['html', 'jade', 'css', 'scss', 'sass', 'js', 'less'] %}
+{% set allowed_ext = ['html', 'jade', 'css', 'scss', 'sass', 'js', 'json', 'less', 'coffee'] %}
 {{ get_data(type='template', limit=200).filter('ext', allowed_ext).json }}
 

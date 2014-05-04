@@ -17,7 +17,7 @@
     this.title = raw_post.path.split('/').slice(1).join('/');
     this.content = raw_post['content'] || '';
     this.edit = function() {
-      var current_post_dom, indent_with_tab, index, mode, _ref;
+      var current_post_dom, indent_with_tab, index, mode, _ref, _ref1;
 
       if (editor.current_post()) {
         editor.current_post()['content'] = editor.get_content();
@@ -40,14 +40,16 @@
           name: "jinja2",
           htmlMode: true
         };
-      } else if (raw_post.ext === 'js') {
+      } else if ((_ref = raw_post.ext) === 'js' || _ref === 'json') {
         mode = 'javascript';
       } else if (raw_post.ext === 'less') {
         mode = "text/x-less";
-      } else if ((_ref = raw_post.ext) === 'sass' || _ref === 'scss') {
+      } else if ((_ref1 = raw_post.ext) === 'sass' || _ref1 === 'scss') {
         mode = "text/x-scss";
       } else if (raw_post.ext === 'css') {
         mode = 'text/css';
+      } else if (raw_post.ext === 'coffee') {
+        mode = 'text/x-coffeescript';
       }
       _this.code_editor = CodeMirror(document.getElementById("editor"), {
         value: _this.content,
@@ -133,7 +135,7 @@
       } else {
         ext_parts = path.split('.');
         ext = ext_parts[ext_parts.length - 1];
-        if (ext !== 'scss' && ext !== 'sass' && ext !== 'css' && ext !== 'less' && ext !== 'jade' && ext !== 'html') {
+        if (ext !== 'scss' && ext !== 'sass' && ext !== 'css' && ext !== 'less' && ext !== 'jade' && ext !== 'html' && ext !== 'json' && ext !== 'coffee') {
           Essage.show({
             message: 'this file type is not allowed',
             status: 'error'
