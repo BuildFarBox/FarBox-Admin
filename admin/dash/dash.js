@@ -225,13 +225,18 @@
       if (site.configs && key in site.configs) {
         value = site.configs[key];
       } else {
-        value = site[key];
+        if (key in site) {
+          value = site[key];
+        }
       }
       if ($.type(value) === 'array') {
         value = value.join('\n');
       }
       if (default_value != null) {
         if (default_value === 'yes' || default_value === 'no') {
+          if (value == null) {
+            value = default_value;
+          }
           if (value === true) {
             return 'yes';
           }

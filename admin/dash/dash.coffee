@@ -208,7 +208,8 @@ ImageUploader = (dom) ->
         if site.configs and key of site.configs
             value = site.configs[key]
         else
-            value = site[key]
+            if key of site
+                value = site[key]
 
         if $.type(value) == 'array'
             value = value.join('\n')
@@ -216,6 +217,8 @@ ImageUploader = (dom) ->
         # somethings true means 'yes'
         if default_value?
             if default_value in ['yes', 'no']
+                if not value? # undefinde by site[key]
+                    value = default_value
                 if value == true
                     return 'yes'
                 if value == false
