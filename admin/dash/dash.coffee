@@ -49,6 +49,10 @@ admin_data_gateway = '/admin/data'
 auto_iframe = ->
     $('.full-window iframe').css({height: $(window).height()-3, width: $(window).width()-100})
 
+right_size_for_templates = ->
+    $('.templates-container').css({height: $(window).height()-70})
+    $('.templates-container iframe').css({height: ($(window).height()-70)*0.95})
+
 
 # boday_overflow -> 可以禁止滚动条， template-> 页面中使用哪块template, func-> 执行一次的, always_run-> 菜单每次点击，都会执行的
 main_menus = [
@@ -78,8 +82,8 @@ main_menus = [
         template : "templates-template",
         body_overflow: true,
         always_run: ->
-            $('.templates-container').css({height: $(window).height()-70})
-            window.onresize = ->  $('.templates-container').css({height: $(window).height()-70})
+            right_size_for_templates()
+            window.onresize = right_size_for_templates
 
     },
     {
