@@ -1,0 +1,31 @@
+html
+	head
+		title Editor
+		+need_admin()
+		+load('fonts /template/admin/editor/pure_editor.scss')
+    body
+		#main
+			#controls
+				.cmds
+					a#hide_controls(data-bind="click: hide_controls", href="#")
+						i.fa.fa-arrow-left
+					a#create_post(data-bind="click: create_post", href="#")
+						i.fa.fa-plus
+						| New Post
+				ul#posts.posts(data-bind="foreach: posts")
+					li
+						a.post(data-bind="click: edit", href="#")
+							span(data-bind="text: title")
+							span.remove(data-bind="click: remove") x
+			#editor
+				input#title(type="text", data-bind="value: current_post().title, event:{keyup: sync}")
+				textarea#textarea(data-bind="event:{keyup: sync}")
+			#editor_save_button(data-bind="visible:show_tip_info()")
+				a(data-bind="text: tip_info, click: _sync", href="#") Save
+				span.precess(data-bind="style:{width: wait_to_sync_precess()}")
+
+
+		+load('jquery#1.8.1 knockout essage')
+		+load('/template/admin/editor/plugins/jquery.dateFormat-1.0.js /template/admin/editor/pure_editor.js')
+		script(type="text/javascript")
+			run_editor()

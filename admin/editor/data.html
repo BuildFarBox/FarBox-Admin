@@ -1,5 +1,0 @@
-{{ set_content_type("application/json") }}
-{% set current_post = get_doc(request.args.current_post_path) %}
-{% set posts = get_data(type='post', status='all', limit=20, sort='desc') %}
-{{ posts.add(current_post, 0) }}
-{{ posts.json }}

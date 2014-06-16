@@ -269,6 +269,30 @@ make_textarea_center = ->
     if $.browser.mozilla  #firefox
         dom.css({'width': textarea_width + 'px'})
 
+realtime_input = (editor_model)->
+    if WebSocket? and JSON?
+        if document.location.protocol == 'https:' then ws_protocl='wss:' else ws_protocl='ws:'
+        ws_url = ws_protocl+'realtime.farbox.com/notes'
+        socket = null
+        connect_to_farbox = =>
+            socket = new WebSocket(ws_url)
+            connectted_at = new Date()
+            socket.onmessage = (message)->
+                note = JSON.parse(message.data)
+                if note.path == editor_model.current_post().path
+                    $.get '/admin/editor/appended/~'+note.path, {}, (data)->
+                        if data
+                            text_dom = $('#textarea')
+                            text_dom.val(text_dom.val()+'\n\n'+data)
+            socket.onclose = ->
+                if (new Date() - connectted_at)/1000 > 10
+                    connect_to_farbox() #reconnect
+        keep_live = =>
+            if socket
+                socket.send('ping')
+        # first time call
+        connect_to_farbox()
+        setInterval(keep_live, 30000)
 
 @run_editor = =>
     editor_model = new EditorModel()
@@ -299,3 +323,8 @@ make_textarea_center = ->
             if editor_model.need_sync()
                 return 'Contents not saved yet, Please wait for a moment!'
             return null
+
+        realtime_input(editor_model)
+
+
+
