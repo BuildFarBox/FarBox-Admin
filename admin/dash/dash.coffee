@@ -7,7 +7,7 @@ exports = this
         'Statistics': '统计',
         'Templates': '网站模板',
         'Default Template': '默认模板',
-        'Docs': '文档',
+        'Help': '帮助',
         'Domain': '域名',
         'Visit Site': '访问网站',
         'Logout': '登出',
@@ -105,7 +105,7 @@ main_menus = [
         body_overflow: true
     },
     {
-        title: get_text('Docs'),
+        title: get_text('Help'),
         icon: "fa fa-question",
         template: "doc-template",
         always_run: ->
