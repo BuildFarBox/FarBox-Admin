@@ -18,7 +18,23 @@ exports = this
         'Current Template of this Site': '当前正在使用的模板',
         'Image Uploading, Wait...': '图片上传中, 请稍等...',
         'Image Uploaded, Done!': '图片已上传成功!'
-
+    },
+    'zh_tw':{
+        'Setup': '設置',
+        'Statistics': '統計',
+        'Templates': '網站模板',
+        'Default Template': '默認模板',
+        'Help': '幫助',
+        'Domain': '域名',
+        'Visit Site': '訪問網站',
+        'Logout': '登出',
+        'Save Configs': '保存設置',
+        'Configs are saved!': '設置已經保存了!',
+        'Current Status...': '當前狀態...',
+        'Use This One':'使用這個模板',
+        'Current Template of this Site': '當前正在使用的模板',
+        'Image Uploading, Wait...': '圖片上傳中，請稍等...',
+        'Image Uploaded, Done!': '圖片已上傳成功!'
     }
 }
 
