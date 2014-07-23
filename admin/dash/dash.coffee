@@ -39,7 +39,11 @@ exports = this
 }
 
 
-@lang = navigator.language.toLowerCase().replace('-', '_')
+user_lang = window.navigator.userLanguage or navigator.language
+
+@lang = user_lang.toLowerCase().replace('-', '_')
+
+@canvas_allowed = document.createElement('canvas').getContext
 
 
 @get_text = (key, keys)->
@@ -399,10 +403,15 @@ DashBoard = (data)->
     @template_chooser = new TemplateChooser(this)
 
     @config_for_images = =>
+
         for dom in $('.drag_and_upload')
-            uploader = new ImageUploader(dom)
-            uploader.add_drop_event()
-            @image_uploaders.push(uploader)
+            if @canvas_allowed
+                uploader = new ImageUploader(dom)
+                uploader.add_drop_event()
+                @image_uploaders.push(uploader)
+            else
+                dom.title = 'your current browser does not support for dragging image to upload it!'
+                return false
 
     @reset_for_images = =>
         for uploader in @image_uploaders

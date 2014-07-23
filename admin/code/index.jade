@@ -1,0 +1,49 @@
+html
+	head
+		title Code Editor
+		+need_admin()
+		+load('fonts /template/admin/code/style.scss')
+    body
+		#main
+			#controls
+				.cmds
+					a#create_post(data-bind="click: open_new_window", href="#")
+						i.fa.fa-plus
+						| New Code File
+				ul#posts.posts(data-bind="foreach: posts")
+					li
+						a.post(data-bind="click: edit", href="#")
+							span(data-bind="text: title")
+							span.remove(data-bind="click: remove") x
+			#editor
+
+			#editor_save_button(data-bind="visible:show_tip_info()")
+				a(data-bind="text: tip_info, click: _sync", href="#") Save
+				span.precess(data-bind="style:{width: wait_to_sync_precess()}")
+
+
+		#new_window
+			#window_bg
+			.main
+				#new_window_body
+					.close(data-bind="click:hide_new_window")
+						a(href="#")
+							i.fa.fa-times
+							| close
+					p
+						label= '文件名' if lang=='zh_cn' else 'Filename'
+						input(type="text", id="new_path", placeholder='index.jade', data-bind='event: {keyup: function(){if (event.keyCode == 13) create_new_one()}}')
+					p.new_window_note
+						if lang=='zh_cn'
+							| 支持.jade/.html/.js/.coffee/.scss/.css/.json/.less/.sass 后缀
+						else
+							| Supports .jade/.html/.js/.coffee/.scss/.css/.json/.less/.sass
+					p.button
+						a(href="#", data-bind="click: create_new_one")= '新文件' if lang=='zh_cn' else 'New File'
+
+
+		+load('jquery#1.8.1 knockout essage /template/admin/code/editor.coffee')
+		+load('/template/admin/code/lib', ('codemirror.js', 'codemirror.css', 'solarized.css'))
+		+load('/template/admin/code/lib/mode', ('jade.js', 'jinja2.js', 'css.js', 'javascript.js'))
+		script(type="text/javascript")
+			run_editor()

@@ -9,7 +9,7 @@ html
 				.cmds
 					a#hide_controls(data-bind="click: hide_controls", href="#")
 						i.fa.fa-arrow-left
-					a#create_post(data-bind="click: create_post", href="#")
+					a#create_post(data-bind="click: open_new_window", href="#")
 						i.fa.fa-plus
 						| New Post
 				ul#posts.posts(data-bind="foreach: posts")
@@ -25,7 +25,27 @@ html
 				span.precess(data-bind="style:{width: wait_to_sync_precess()}")
 
 
+		#new_window
+			#window_bg
+			.main
+				#new_window_body
+					.close(data-bind="click:hide_new_window")
+						a(href="#")
+							i.fa.fa-times
+							| close
+					p
+						label= '文件名' if lang=='zh_cn' else 'Filename'
+						input(type="text", id="new_path", data-bind='event: {keyup: function(){if (event.keyCode == 13) create_new_one()}}')
+					p.new_window_note
+						if lang=='zh_cn'
+							| 为了避免复杂的操作，Web版编辑器只显示最近20篇文章；你也可以使用桌面端程序<a href="https://www.farbox.com/service/download-editor" target="_blank">FarEditor</a>进行写作。
+						else
+							| To avoid complicated operations, the Web Editor only displays the recent 20 artilces; you also can download the desktop APP <a href="https://www.farbox.com/service/download-editor" target="_blank">FarEditor</a> for writing.
+					p.button
+						a(href="#", data-bind="click: create_new_one")= '新日志' if lang=='zh_cn' else 'New Post'
+
+
 		+load('jquery#1.8.1 knockout essage')
-		+load('/template/admin/editor/plugins/jquery.dateFormat-1.0.js /template/admin/editor/pure_editor.js')
+		+load('/template/admin/editor/plugins/jquery.dateFormat-1.0.js /template/admin/editor/pure_editor.coffee')
 		script(type="text/javascript")
 			run_editor()

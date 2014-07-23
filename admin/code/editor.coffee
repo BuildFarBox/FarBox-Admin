@@ -3,6 +3,32 @@ sync_gateway = '/service/gateway/sync'
 controls_width = 235
 
 
+$.fn.shake = (options) ->
+    selector = this
+    settings = $.extend({'speed':100,'margin':20,'onComplete': false,'onStart':false},options)
+    speed = settings['speed']
+    margin = settings['margin']
+    margin_total = parseInt(margin) + parseInt(margin)
+    onComplete = settings['onComplete']
+    onStart = settings['onStart']
+    if onStart
+        eval(onStart)
+    $(selector).animate {marginLeft:margin}, speed/2, ->
+        $(selector).animate {marginLeft:'-'+margin_total}, speed, ->
+            $(selector).animate {marginLeft:''+margin_total},speed, ->
+                $(selector).animate {marginLeft:'-'+margin_total},speed, ->
+                    $(selector).animate {marginLeft:''+margin_total},speed, ->
+                        $(selector).animate {marginLeft:'-'+margin_total},speed, ->
+                            $(selector).animate {marginLeft:'-0'},speed, ->
+                                if onComplete
+                                    eval(onComplete)
+
+
+
+
+
+
+
 Post = (raw_post, editor) ->
     @path = raw_post.path
     @title = raw_post.path.split('/').slice(1).join('/')
@@ -62,6 +88,7 @@ Post = (raw_post, editor) ->
 
         editor.current_post(this)
 
+
     @remove = =>
         # todo 发送删除的
         $.post sync_gateway, {'path': @path, 'is_deleted': true}
@@ -99,24 +126,40 @@ EditorModel = ->
             if @posts().length
                 @posts()[0].edit()
             else
-                @create_post()
+                @open_new_window()
 
-    @create_post = =>
-        paths = $.map @posts(), (post) -> post.path
-        path = window.prompt("Path:","")
-        if path in paths
-            Essage.show({message: 'this path already exists', status: 'error'})
-            return false # ignore
-        else
-            ext_parts = path.split('.')
+
+    @open_new_window = ->
+        $('#new_window').css('display', 'block')
+        $('#window_bg').css('background', '#000')
+        $('#window_bg').css('opacity', '0.6')
+        $('#new_window input').val('')
+        $('#new_window input').focus()
+
+    @hide_new_window = ->
+        $('#new_window').css('display', 'none')
+
+    @create_new_one = =>
+        new_path = $.trim($('#new_path').val())
+        if new_path
+            ext_parts = $.trim(new_path).split('.')
             ext = ext_parts[ext_parts.length-1]
             if ext not in ['scss', 'sass', 'css', 'less', 'jade', 'html', 'json', 'coffee']
-                Essage.show({message: 'this file type is not allowed', status: 'error'})
+                $('#new_window_body').shake()
                 return false
-            path = path.replace(/^\//g, '', path)
-            new_post = new Post({path: 'template/' + path, ext: ext}, self)
-            @.posts.unshift(new_post)
-            new_post.edit()
+            path = 'template/'+new_path.replace(/^\//g, '',).replace('/^template\//ig', '')
+
+            paths = $.map @posts(), (post) -> post.path
+            if $.inArray(path, paths) == -1
+                new_post = new Post({path: path, ext: ext}, self)
+                @.posts.unshift(new_post)
+                new_post.edit()
+                @hide_new_window()
+            else
+                $('#new_window_body').shake()
+        else
+            $('#new_window_body').shake()
+        $('#new_window input').focus()
 
 
     @get_content = =>

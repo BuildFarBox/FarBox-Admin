@@ -69,30 +69,30 @@
                     <fieldset date-bind="visible: visible">
                         <legend data-bind="text: title"></legend>
                         <div class="fb-group" data-bind="foreach: cells">
-                            <div data-bind="foreach: parts, attr: {class: 'fb-cell fb-u-'+parts_per_line}">
+                            <div data-bind="foreach: parts, css: 'fb-cell fb-u-'+parts_per_line">
                                 <div class="fb-u">
 
                                     <!-- ko if: (model=='text')-->
-                                    <label data-bind="attr:{for: id}, html: title"></label>
+                                    <label data-bind="attr:{uniqueFor: id}, html: title"></label>
                                     <input data-bind="attr:{id: id, placeholder: default_value }, value:value"
                                            type="text" class="fb_config">
                                     <!-- /ko -->
 
                                     <!-- ko if: (model=='image')-->
-                                    <label data-bind="attr:{for: id}, html: title"></label>
+                                    <label data-bind="attr:{uniqueFor: id}, html: title"></label>
                                     <img data-bind="attr:{src: value, alt: 'Drag Image Here', style: styles}" class="drag_and_upload">
                                     <input data-bind="attr:{id: id}, value:raw_value" type="hidden" class="fb_config">
                                     <!-- /ko -->
 
                                     <!-- ko if: model=='select' -->
-                                    <label data-bind="attr:{for: id}, html: title"></label>
+                                    <label data-bind="attr:{uniqueFor: id}, html: title"></label>
                                     <select data-bind="attr:{id: id}, value: value, options:options, optionsText: 'title', optionsValue: 'value' "
                                             class="fb_config">
                                     </select>
                                     <!-- /ko -->
 
                                     <!-- ko if: model=='textarea' -->
-                                    <label data-bind="attr:{for: id}, html: title"></label>
+                                    <label data-bind="attr:{uniqueFor: id}, html: title"></label>
                                     <textarea data-bind="attr:{id: id} , value: value, css:{is_list: is_list}"
                                               class="fb_config"></textarea>
                                     <!-- /ko -->
@@ -196,7 +196,8 @@
    <script type="text/javascript">
        var cross_account_id = '{{cross_account_id}}';
    </script>
-{{ load('jquery#1.8.1 knockout essage /template/admin/dash/dash.js') }}
+
+{{ load('jquery#1.8.1  knockout#3.1.0 essage /template/admin/dash/dash.coffee') }}
 
 </body>
 </html>

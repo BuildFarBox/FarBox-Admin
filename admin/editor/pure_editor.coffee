@@ -2,6 +2,31 @@ posts_host = '/admin/editor/data'+location.search
 sync_gateway = '/service/gateway/sync'
 controls_width = 235
 
+@canvas_allowed = document.createElement('canvas').getContext
+
+
+$.fn.shake = (options) ->
+    selector = this
+    settings = $.extend({'speed':100,'margin':20,'onComplete': false,'onStart':false},options)
+    speed = settings['speed']
+    margin = settings['margin']
+    margin_total = parseInt(margin) + parseInt(margin)
+    onComplete = settings['onComplete']
+    onStart = settings['onStart']
+    if onStart
+        eval(onStart)
+    $(selector).animate {marginLeft:margin}, speed/2, ->
+        $(selector).animate {marginLeft:'-'+margin_total}, speed, ->
+            $(selector).animate {marginLeft:''+margin_total},speed, ->
+                $(selector).animate {marginLeft:'-'+margin_total},speed, ->
+                    $(selector).animate {marginLeft:''+margin_total},speed, ->
+                        $(selector).animate {marginLeft:'-'+margin_total},speed, ->
+                            $(selector).animate {marginLeft:'-0'},speed, ->
+                                if onComplete
+                                    eval(onComplete)
+
+
+
 
 Post = (raw_post, editor) ->
     if raw_post.raw_path
@@ -27,15 +52,37 @@ Post = (raw_post, editor) ->
             editor.current_post()['content'] = t_dom.val()
             editor._sync(editor.get_path(), editor.get_content()) # 切换文章编辑的时候，先进行一次同步
 
+        if not $.trim(@content)
+            # 填充时间戳
+            @content = 'Date: ' + $.format.date(new Date(), 'yyyy-MM-dd HH:mm')  + '\n\n'
+            to_tail = true
+        else
+            to_tail = false
 
         t_dom.val(@content)
         t_dom.focus()
+
+        if to_tail
+            @to_text_tail()
+        else
+            @to_text_first_line_end()
 
         $('#posts li a.current').removeClass('current')
         index = $.inArray(this, editor.posts())
         current_post_dom = $($('#posts li a')[index])
         current_post_dom.addClass('current')
         editor.current_post(this)
+
+    @to_text_tail = ->
+        obj = $('#textarea')[0]
+        obj.selectionStart = obj.selectionEnd = obj.value.length
+
+    @to_text_first_line_end = ->
+        obj = $('#textarea')[0]
+        if obj.value.indexOf('\n')
+            obj.selectionStart = obj.selectionEnd = obj.value.indexOf('\n')
+        else
+            obj.selectionStart = obj.selectionEnd = obj.value.length
 
     @remove = =>
         # todo 发送删除的
@@ -74,25 +121,43 @@ EditorModel = ->
             if @posts().length
                 @posts()[0].edit()
             else
-                @create_post()
+                @create_first_post()
 
-    @create_post = =>
-        paths = $.map @posts(), (post) -> post.path
-        for i in [0..5]
-            title = $.format.date(new Date(), 'yyyy-MM-dd')
-            if i
-                title = title + '-' + i
-            path = title + '.txt'
-
-            if $.inArray(path, paths) == -1  # 当前path不存在时, break, title有效
-                break
-            if i == 5
-                return
+    @create_first_post = =>
+        title = $.format.date(new Date(), 'yyyy-MM-dd')
+        path = title + '.txt'
         new_post = new Post({path: path, title: title}, self)
         @.posts.unshift(new_post)
         new_post.edit()
 
 
+    @open_new_window = ->
+        $('#new_window').css('display', 'block')
+        $('#window_bg').css('background', '#000')
+        $('#window_bg').css('opacity', '0.6')
+        $('#new_window input').val('')
+        $('#new_window input').focus()
+
+    @hide_new_window = ->
+        $('#new_window').css('display', 'none')
+
+    @create_new_one = =>
+        new_path = $.trim($('#new_path').val())
+        if new_path
+            if not new_path.match(/\.(md|markdown|txt|mk)$/gi)
+                new_path = new_path+'.txt'
+            paths = $.map @posts(), (post) -> post.path
+            if $.inArray(new_path, paths) == -1
+                title = new_path.replace(/\.(md|markdown|txt|mk)$/gi, '')
+                new_post = new Post({path: new_path, title: title}, self)
+                @.posts.unshift(new_post)
+                new_post.edit()
+                @hide_new_window()
+            else
+                $('#new_window_body').shake()
+        else
+            $('#new_window_body').shake()
+        $('#new_window input').focus()
 
     @show_controls = ->
         if controls.position().left == -controls_width
@@ -185,6 +250,8 @@ EditorModel = ->
 
 
     @insert_image_allowed = =>
+        if not @canvas_allowed
+            return false
         dom = $('#textarea')
         $(dom)[0].addEventListener  'drop', (event)=>
             files = event.dataTransfer.files
@@ -206,9 +273,15 @@ EditorModel = ->
 
 
     @canvas =  document.createElement( 'canvas' )
-    @cx = @canvas.getContext('2d')
+    if @canvas_allowed
+        @cx = @canvas.getContext('2d')
+    else
+        @cx = null
 
     @upload_image = (file)=>
+        if not @canvas_allowed
+            return false
+
         img = new Image()
         img.src = file
 
@@ -280,7 +353,7 @@ realtime_input = (editor_model)->
             socket.onmessage = (message)->
                 note = JSON.parse(message.data)
                 if note.path == editor_model.current_post().path
-                    $.get '/admin/editor/appended/~'+note.path, {}, (data)->
+                    $.get '/admin/editor/appended/~~'+note.path, {}, (data)->
                         if data
                             text_dom = $('#textarea')
                             text_dom.val(text_dom.val()+'\n\n'+data)

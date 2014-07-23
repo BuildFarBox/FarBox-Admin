@@ -187,3 +187,115 @@ body {
     }
 
 }
+
+
+#new_window{
+    z-index: 9999;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    #window_bg{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top:0;
+        z-index: 99;
+        background: rgba(0,0,0,0.6);
+
+    }
+
+
+    .main{
+        z-index: 999;
+        width: 450px;
+        margin: 0 auto;
+        position: relative;
+        top: 25%;
+
+
+        #new_window_body{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #fff;
+            padding: 50px 50px 30px 50px;
+            height: 165px;
+            width: 350px;
+
+
+            .close{
+                position: absolute;
+                right: 8px;
+                top: 5px;
+
+                a{
+                    color: #666;
+                    font-size:12px;
+                    text-decoration: none;
+                    i{
+                      margin-right: 1px;
+                    }
+                    &:hover{
+                        color: indianred;
+                    }
+                }
+
+            }
+
+            label{
+                font-size: 14px;
+                margin-right: 3px;
+            }
+
+            input{
+                padding: 5px 10px;
+                color: #508fff;
+                font-size: 14px;
+                width: 260px;
+                letter-spacing: 1px;
+            }
+
+            .button{
+                margin: 35px auto;
+                text-align: center;
+
+                a{
+                    letter-spacing: 1px;
+                    font-family: Arial;
+                    font-size: 16px;
+                    text-decoration: none;
+                    color: #fff;
+                    padding: 7px 30px;
+                    background: #e7645c;
+                    border: 1px solid #ddd;
+                    border-radius: 3px;
+
+
+                    &:hover {
+                        background: darken(#e7645c, 10%);;
+                    }
+                }
+
+            }
+
+            p.new_window_note{
+                font-size: 12px;
+                color: #999;
+
+                a{
+                    text-decoration: underline;
+                    color: #555;
+                    &:hover{
+                        color: indianred;
+                    }
+                }
+            }
+
+        }
+        }
+}
